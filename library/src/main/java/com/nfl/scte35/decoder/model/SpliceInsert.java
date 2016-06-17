@@ -18,4 +18,23 @@ public class SpliceInsert {
     public int uniqueProgramID;
     public int availNum;
     public int availsExpected;
+
+    @Override
+    public String toString() {
+        return "SpliceInsert{" +
+                "spliceEventID=" + spliceEventID +
+                ", spliceEventCancelIndicator=" + spliceEventCancelIndicator +
+                ", reserved1=" + reserved1 +
+                ", outOfNetworkIndicator=" + outOfNetworkIndicator +
+                ", programSpliceFlag=" + programSpliceFlag +
+                ", sisp=" + sisp +
+                ", durationFlag=" + durationFlag +
+                ", spliceImmediateFlag=" + spliceImmediateFlag +
+                ", breakDuration=" + breakDuration +
+                ", reserved2=" + reserved2 +
+                ", uniqueProgramID=" + uniqueProgramID +
+                ", availNum=" + availNum +
+                ", availsExpected=" + availsExpected +
+                '}';
+    }
 }

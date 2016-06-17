@@ -22,4 +22,29 @@ public class SpliceInfoSection {
     public int alignmentStuffing;
     public int eCRC32;
     public int CRC32;
+    public SpliceInsert spliceInsert;
+
+    @Override
+    public String toString() {
+        return "SpliceInfoSection{" +
+                "tableID=" + tableID +
+                ", sectionSyntaxIndicator=" + sectionSyntaxIndicator +
+                ", privateIndicator=" + privateIndicator +
+                ", reserved1=" + reserved1 +
+                ", sectionLength=" + sectionLength +
+                ", protocolVersion=" + protocolVersion +
+                ", encryptedPacket=" + encryptedPacket +
+                ", encryptionAlgorithm=" + encryptionAlgorithm +
+                ", ptsAdjustment=" + ptsAdjustment +
+                ", cwIndex=" + cwIndex +
+                ", tier=" + tier +
+                ", spliceCommandLength=" + spliceCommandLength +
+                ", spliceCommandType=" + spliceCommandType +
+                ", descriptorLoopLength=" + descriptorLoopLength +
+                ", alignmentStuffing=" + alignmentStuffing +
+                ", eCRC32=" + eCRC32 +
+                ", CRC32=" + CRC32 +
+                ", spliceInsert=" + spliceInsert +
+                '}';
+    }
 }

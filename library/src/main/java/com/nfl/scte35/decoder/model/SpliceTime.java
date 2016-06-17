@@ -9,4 +9,14 @@ public class SpliceTime {
     public int reserved1;
     public long ptsTime;
     public int reserved2;
+
+    @Override
+    public String toString() {
+        return "SpliceTime{" +
+                "timeSpecifiedFlag=" + timeSpecifiedFlag +
+                ", reserved1=" + reserved1 +
+                ", ptsTime=" + ptsTime +
+                ", reserved2=" + reserved2 +
+                '}';
+    }
 }
