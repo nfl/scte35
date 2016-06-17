@@ -27,6 +27,7 @@ public class Scte35DecoderTest {
 
     }
 
+
     /**
      * Given input:
      * {@code "/DAlAAAAAAAAAP/wFAUAACtnf+/+s9z9LP4Ae5igAAEBAQAAwWSPdQ=="}
@@ -72,6 +73,18 @@ public class Scte35DecoderTest {
         assertEquals(-1050374283L, spliceInfoSection.CRC32);
 
         System.out.println(spliceInfoSection);
+    }
+
+
+    /**
+     * From Example on Python decoder: https://gist.github.com/use-sparingly/6517a8b94a52746af028
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExample3() throws Exception {
+        System.out.println(scte35Decoder.base64Decode("/DAlAAAAAAAAAP/wFAUAAAABf+/+LRQrAP4BI9MIAAEBAQAAfxV6SQ=="));
+
     }
 
 }
