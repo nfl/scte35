@@ -86,16 +86,13 @@ public final class Scte35Decoder {
 
         String stemp = "";
         log("Hex=0x");
-        ;
 
         for (int i = 0; i < b64.length; i++) {
             stemp += String.format("%02X", b64[i]);
         }
         log(stemp + "\nBase64=" + Base64.encodeToString(b64, false) + "\n\n");
-        ;
 
         log("Decoded length = " + b64.length + "\n");
-        ;
 
 
         spliceInfoSection.tableID = b64[0] & 0x00ff;
@@ -103,50 +100,39 @@ public final class Scte35Decoder {
             throw new DecodingException("Invalid Table ID != 0xFC");
         }
         log("Table ID = 0xFC\n");
-        ;
 
         spliceInfoSection.sectionSyntaxIndicator = (b64[1] >> 7) & 0x01;
         if (spliceInfoSection.sectionSyntaxIndicator != 0) {
             log("ERROR Long section used\n");
-            ;
         } else {
             log("MPEG Short Section\n");
-            ;
         }
 
         spliceInfoSection.privateIndicator = (b64[1] >> 6) & 0x01;
         if (spliceInfoSection.privateIndicator != 0) {
             log("ERROR Private section signaled\n");
-            ;
         } else {
             log("Not Private\n");
-            ;
         }
 
         spliceInfoSection.reserved1 = (b64[1] >> 4) & 0x03;
         log(String.format("Reserved = 0x%x\n", spliceInfoSection.reserved1));
-        ;
 
         i1 = b64[1] & 0x0f;
         i2 = b64[2] & 0x00ff;
         spliceInfoSection.sectionLength = (i1 << 8) + i2;
         log(("Section Length = " + spliceInfoSection.sectionLength + "\n"));
-        ;
 
         spliceInfoSection.protocolVersion = b64[3];
         log(("Protocol Version = " + spliceInfoSection.protocolVersion + "\n"));
-        ;
 
         spliceInfoSection.encryptedPacket = (b64[4] >> 7) & 0x01;
         spliceInfoSection.encryptionAlgorithm = (b64[4] >> 1) & 0x3F;
         if (spliceInfoSection.encryptedPacket != 0) {
             log("Encrypted Packet\n");
-            ;
             log(String.format("Encryption Algorithm = 0x%x\n", spliceInfoSection.encryptionAlgorithm));
-            ;
         } else {
             log("unencrypted Packet\n");
-            ;
         }
 
         l1 = b64[4] & 0x01;
@@ -156,25 +142,21 @@ public final class Scte35Decoder {
         l5 = b64[8] & 0x00ff;
         spliceInfoSection.ptsAdjustment = (l1 << 32) + (l2 << 24) + (l3 << 16) + (l4 << 8) + l5;
         log(String.format("PTS Adjustment = 0x%09x\n", spliceInfoSection.ptsAdjustment));
-        ;
 
         spliceInfoSection.cwIndex = b64[9] & 0x00ff;
         if (spliceInfoSection.encryptedPacket != 0) {
             log(String.format("CW Index = 0x%x\n", spliceInfoSection.cwIndex));
-            ;
         }
 
         i1 = b64[10] & 0x00ff;
         i2 = (b64[11] & 0x00f0) >> 4;
         spliceInfoSection.tier = (i1 << 4) + i2;
         log(String.format("Tier = 0x%x\n", spliceInfoSection.tier));
-        ;
 
         i1 = b64[11] & 0x000f;
         i2 = b64[12] & 0x00ff;
         spliceInfoSection.spliceCommandLength = (i1 << 8) + i2;
         log(String.format("Splice Command Length = 0x%x\n", spliceInfoSection.spliceCommandLength));
-        ;
 
         spliceInfoSection.spliceCommandType = b64[13] & 0x00ff;
         bufptr = 14;
@@ -183,15 +165,12 @@ public final class Scte35Decoder {
         switch (spliceInfoSection.spliceCommandType) {
             case SPLICE_NULL:
                 log("Splice Null\n");
-                ;
                 break;
             case SPLICE_SCHEDULE:
                 log("Splice Schedule\n");
-                ;
                 break;
             case SPLICE_INSERT:
                 log("Splice Insert\n");
-                ;
                 l1 = b64[bufptr] & 0x00ff;
                 bufptr++;
                 l2 = b64[bufptr] & 0x00ff;
@@ -202,14 +181,12 @@ public final class Scte35Decoder {
                 bufptr++;
                 spliceInsert.spliceEventID = (int) (((l1 << 24) + (l2 << 16) + (l3 << 8) + l4) & 0x00ffffffff);
                 log(String.format("Splice Event ID = 0x%x\n", spliceInsert.spliceEventID));
-                ;
 
                 i1 = b64[bufptr] & 0x080;
                 bufptr++;
                 if (i1 != 0) {
                     spliceInsert.spliceEventCancelIndicator = 1;
                     log("Splice Event Canceled\n");
-                    ;
                 } else {
                     spliceInsert.spliceEventCancelIndicator = 0;
                 }
@@ -221,7 +198,6 @@ public final class Scte35Decoder {
                 bufptr++;
                 log("Flags OON=" + spliceInsert.outOfNetworkIndicator + " Prog=" + spliceInsert.programSpliceFlag
                         + " Duration=" + spliceInsert.durationFlag + " Immediate=" + spliceInsert.spliceImmediateFlag + "\n");
-                ;
 
                 if ((spliceInsert.programSpliceFlag == 1) && (spliceInsert.spliceImmediateFlag == 0)) {
                     if ((b64[bufptr] & 0x080) != 0) {
@@ -237,7 +213,6 @@ public final class Scte35Decoder {
                         l5 = b64[bufptr] & 0x00ff;
                         spliceInsert.sisp.ptsTime = (l1 << 32) + (l2 << 24) + (l3 << 16) + (l4 << 8) + l5;
                         log(String.format("Splice time = 0x%09x\n", spliceInsert.sisp.ptsTime));
-                        ;
                     }
                     bufptr++;
                 }
@@ -246,7 +221,6 @@ public final class Scte35Decoder {
                     spliceInsert.breakDuration.autoReturn = (b64[bufptr] & 0x080) >> 7;
                     if (spliceInsert.breakDuration.autoReturn != 0) {
                         log("Auto Return\n");
-                        ;
                     }
                     l1 = b64[bufptr] & 0x01;
                     bufptr++;
@@ -262,7 +236,6 @@ public final class Scte35Decoder {
                     double bsecs = spliceInsert.breakDuration.duration;
                     bsecs /= 90000.0;
                     log(String.format("break duration = 0x%09x = %f seconds\n", spliceInsert.breakDuration.duration, bsecs));
-                    ;
                 }
                 i1 = b64[bufptr] & 0x00ff;
                 bufptr++;
@@ -270,22 +243,18 @@ public final class Scte35Decoder {
                 bufptr++;
                 spliceInsert.uniqueProgramID = (i1 << 8) + i2;
                 log("Unique Program ID = " + spliceInsert.uniqueProgramID + "\n");
-                ;
 
                 spliceInsert.availNum = b64[bufptr] & 0x00ff;
                 bufptr++;
                 log("Avail Num = " + spliceInsert.availNum + "\n");
-                ;
 
                 spliceInsert.availsExpected = b64[bufptr] & 0x00ff;
                 bufptr++;
                 log("Avails Expected = " + spliceInsert.availsExpected + "\n");
-                ;
 
                 break;
             case TIME_SIGNAL:
                 log("Time Signal\n");
-                ;
                 TimeSignal timeSignal = new TimeSignal();
                 timeSignal.tssp.timeSpecifiedFlag = (b64[bufptr] & 0x080) >> 7;
                 if (timeSignal.tssp.timeSpecifiedFlag != 0) {
@@ -301,21 +270,17 @@ public final class Scte35Decoder {
                     l5 = b64[bufptr] & 0x00ff;
                     timeSignal.tssp.ptsTime = (l1 << 32) + (l2 << 24) + (l3 << 16) + (l4 << 8) + l5;
                     log(String.format("Time = 0x%09x\n", timeSignal.tssp.ptsTime));
-                    ;
                 }
                 bufptr++;
                 break;
             case BANDWIDTH_RESERVATION:
                 log("Bandwidth Reservation\n");
-                ;
                 break;
             case PRIVATE_COMMAND:
                 log("Private Command\n");
-                ;
                 break;
             default:
                 log(String.format("ERROR Unknown command = 0x%x\n", spliceInfoSection.spliceCommandType));
-                ;
                 // Unknown command, oops
                 break;
         }
@@ -323,7 +288,6 @@ public final class Scte35Decoder {
         if (spliceInfoSection.spliceCommandLength != 0x0fff) { // legacy check
             if (bufptr != (spliceInfoSection.spliceCommandLength + 14)) {
                 log("ERROR decoded command length " + bufptr + " not equal to specified command length " + spliceInfoSection.spliceCommandLength + "\n");
-                ;
                 //Some kind of error, or unknown command
                 //bufptr = spliceInfoSection.spliceCommandLength + 14;
             }
@@ -335,7 +299,6 @@ public final class Scte35Decoder {
         bufptr++;
         spliceInfoSection.descriptorLoopLength = (i1 << 8) + i2;
         log("Descriptor Loop Length = " + spliceInfoSection.descriptorLoopLength + "\n");
-        ;
 
         desptr = bufptr;
 
@@ -358,7 +321,6 @@ public final class Scte35Decoder {
                     switch (tag) {
                         case 0:
                             log("Avail Descriptor - Length=" + len + "\n");
-                            ;
                             l1 = b64[bufptr] & 0x00ff;
                             bufptr++;
                             l2 = b64[bufptr] & 0x00ff;
@@ -369,31 +331,24 @@ public final class Scte35Decoder {
                             bufptr++;
                             int availDesc = (int) (((l1 << 24) + (l2 << 16) + (l3 << 8) + l4) & 0x00ffffffff);
                             log(String.format("Avail Descriptor = 0x%08x\n", availDesc));
-                            ;
                             break;
                         case 1:
                             log("DTMF Descriptor - Length=" + len + "\n");
-                            ;
                             double preroll = b64[bufptr] & 0x00ff;
                             preroll /= 10;
                             log("Preroll = " + preroll + "\n");
-                            ;
                             bufptr++;
                             int dtmfCount = (b64[bufptr] & 0x00E0) >> 5;
                             bufptr++;
                             log(dtmfCount + "DTMF chars = ");
-                            ;
                             for (int i = 0; i < dtmfCount; i++) {
                                 log(String.format("%c", b64[bufptr] & 0x00ff));
-                                ;
                                 bufptr++;
                             }
                             log("\n");
-                            ;
                             break;
                         case 2:
                             log("Segmentation Descriptor - Length=" + len + "\n");
-                            ;
                             seg[segptr] = new SegmentationDescriptor();
                             l1 = b64[bufptr] & 0x00ff;
                             bufptr++;
@@ -405,38 +360,29 @@ public final class Scte35Decoder {
                             bufptr++;
                             seg[segptr].segmentationEventID = (int) (((l1 << 24) + (l2 << 16) + (l3 << 8) + l4) & 0x00ffffffff);
                             log(String.format("Segmentation Event ID = 0x%08x\n", seg[segptr].segmentationEventID));
-                            ;
                             seg[segptr].segmentationEventCancelIndicator = (b64[bufptr] & 0x080) >> 7;
                             bufptr++;
                             if (seg[segptr].segmentationEventCancelIndicator == 0) {
                                 log("Segmentation Event Cancel Indicator NOT set\n");
-                                ;
                                 seg[segptr].programSegmentationFlag = (b64[bufptr] & 0x080) >> 7;
                                 seg[segptr].segmentationDurationFlag = (b64[bufptr] & 0x040) >> 6;
                                 seg[segptr].deliveryNotRestricted = (b64[bufptr] & 0x020) >> 5;
                                 log("Delivery Not Restricted flag = " + seg[segptr].deliveryNotRestricted + "\n");
-                                ;
                                 if (seg[segptr].deliveryNotRestricted == 0) {
                                     seg[segptr].webDeliveryAllowedFlag = (b64[bufptr] & 0x010) >> 4;
                                     log("Web Delivery Allowed flag = " + seg[segptr].webDeliveryAllowedFlag + "\n");
-                                    ;
                                     seg[segptr].noRegionalBlackoutFlag = (b64[bufptr] & 0x008) >> 3;
                                     log("No Regional Blackout flag = " + seg[segptr].noRegionalBlackoutFlag + "\n");
-                                    ;
                                     seg[segptr].archiveAllowed = (b64[bufptr] & 0x004) >> 2;
                                     log("Archive Allowed flag = " + seg[segptr].archiveAllowed + "\n");
-                                    ;
                                     seg[segptr].deviceRestriction = (b64[bufptr] & 0x003);
                                     log("Device Restrictions = " + seg[segptr].deviceRestriction + "\n");
-                                    ;
                                 }
                                 bufptr++;
                                 if (seg[segptr].programSegmentationFlag == 0) {
                                     log("Component segmention NOT IMPLEMENTED\n");
-                                    ;
                                 } else {
                                     log("Program Segmentation flag SET\n");
-                                    ;
                                 }
                                 if (seg[segptr].segmentationDurationFlag == 1) {
                                     l1 = b64[bufptr] & 0x0ff;
@@ -453,7 +399,6 @@ public final class Scte35Decoder {
                                     double secs = seg[segptr].segmentationDuration;
                                     secs /= 90000.0;
                                     log(String.format("Segmentation Duration = 0x%010x = %f seconds\n", seg[segptr].segmentationDuration, secs));
-                                    ;
                                 }
                                 seg[segptr].segmentationUPIDtype = b64[bufptr] & 0x00ff;
                                 bufptr++;
@@ -462,66 +407,53 @@ public final class Scte35Decoder {
                                 switch (seg[segptr].segmentationUPIDtype) {
                                     case 0x00:
                                         log("UPID Type = Not Used length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         break;
                                     case 0x01:
                                         log("UPID Type = User Defined (Deprecated) length =" + seg[segptr].segmentationUPIDlength + "\nHex=0x");
-                                        ;
                                         for (int j = bufptr; j < (bufptr + seg[segptr].segmentationUPIDlength); j++) {
                                             log(String.format("%02X.", b64[j]));
-                                            ;
                                         }
                                         log("\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x02:
                                         log("UPID Type = ISCII (deprecated)length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         String siTemp = "ISCII=";
                                         for (int j = bufptr; j < (bufptr + seg[segptr].segmentationUPIDlength); j++) {
                                             siTemp += (char) b64[j];
                                         }
                                         siTemp += "\n";
                                         log(siTemp);
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x03:
                                         log("UPID Type = Ad-IDlength = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         String stTemp = "AdId=";
                                         for (int j = bufptr; j < (bufptr + seg[segptr].segmentationUPIDlength); j++) {
                                             stTemp += (char) b64[j];
                                         }
                                         stTemp += "\n";
                                         log(stTemp);
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x04:
                                         log("UPID Type = UMID SMPTE 330M length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x05:
                                         log("UPID Type = ISAN (Deprecated) length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x06:
                                         log("UPID Type = ISAN length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x07:
                                         log("UPID Type = Tribune ID length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x08:
                                         log("UPID Type = Turner Identifier length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         l1 = b64[bufptr] & 0x0ff;
                                         bufptr++;
                                         l2 = b64[bufptr] & 0x00ff;
@@ -540,48 +472,37 @@ public final class Scte35Decoder {
                                         bufptr++;
                                         seg[segptr].turnerIdentifier = (l1 << 56) + (l2 << 48) + (l3 << 40) + (l4 << 32) + (l5 << 24) + (l6 << 16) + (l7 << 8) + l8;
                                         log(String.format("Turner Identifier = 0x%016x\n", seg[segptr].turnerIdentifier));
-                                        ;
                                         break;
                                     case 0x09:
                                         log("UPID Type = ADI length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x0A:
                                         log("UPID Type = EIDR length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x0B:
                                         log("UPID Type = ATSC Content Identifier length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x0C:
                                         log("UPID Type = Managed Private UPID length = " + seg[segptr].segmentationUPIDlength + "\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     case 0x0D:
                                         log("UPID Type = Multiple UPID length = " + seg[segptr].segmentationUPIDlength + "\nHex=0x");
-                                        ;
                                         for (int j = bufptr; j < (bufptr + seg[segptr].segmentationUPIDlength); j++) {
                                             log(String.format("%02X.", b64[j]));
-                                            ;
                                         }
                                         log("\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                     default:
                                         log("UPID Type = UNKNOWN length = " + seg[segptr].segmentationUPIDlength + "\nHex=0x");
-                                        ;
                                         for (int j = bufptr; j < (bufptr + seg[segptr].segmentationUPIDlength); j++) {
                                             log(String.format("%02X.", b64[j]));
-                                            ;
                                         }
                                         log("\n");
-                                        ;
                                         bufptr += seg[segptr].segmentationUPIDlength;
                                         break;
                                 }
@@ -590,95 +511,72 @@ public final class Scte35Decoder {
                                 switch (seg[segptr].segmentationTypeID) {
                                     case 0x00:
                                         log("Type = Not Indicated\n");
-                                        ;
                                         break;
                                     case 0x01:
                                         log("Type = Content Identification\n");
-                                        ;
                                         break;
                                     case 0x10:
                                         log("Type = Program Start\n");
-                                        ;
                                         break;
                                     case 0x11:
                                         log("Type = Program End\n");
-                                        ;
                                         break;
                                     case 0x12:
                                         log("Type = Program Early Termination\n");
-                                        ;
                                         break;
                                     case 0x13:
                                         log("Type = Program Breakaway\n");
-                                        ;
                                         break;
                                     case 0x14:
                                         log("Type = Program Resumption\n");
-                                        ;
                                         break;
                                     case 0x15:
                                         log("Type = Program Runover Planned\n");
-                                        ;
                                         break;
                                     case 0x16:
                                         log("Type = Program Runover Unplanned\n");
-                                        ;
                                         break;
                                     case 0x17:
                                         log("Type = Program Overlap Start\n");
-                                        ;
                                         break;
                                     case 0x20:
                                         log("Type = Chapter Start\n");
-                                        ;
                                         break;
                                     case 0x21:
                                         log("Type = Chapter End\n");
-                                        ;
                                         break;
                                     case 0x30:
                                         log("Type = Provider Advertisement Start\n");
-                                        ;
                                         break;
                                     case 0x31:
                                         log("Type = Provider Advertisement End\n");
-                                        ;
                                         break;
                                     case 0x32:
                                         log("Type = Distributor Advertisement Start\n");
-                                        ;
                                         break;
                                     case 0x33:
                                         log("Type = Distributor Advertisement End\n");
-                                        ;
                                         break;
                                     case 0x34:
                                         log("Type = Placement Opportunity Start\n");
-                                        ;
                                         break;
                                     case 0x35:
                                         log("Type = Placement Opportunity End\n");
-                                        ;
                                         break;
                                     case 0x40:
                                         log("Type = Unscheduled Event Start\n");
-                                        ;
                                         break;
                                     case 0x41:
                                         log("Type = Unscheduled Event End\n");
-                                        ;
                                         break;
                                     case 0x50:
                                         log("Type = Network Start\n");
-                                        ;
                                         break;
                                     case 0x51:
                                         log("Type = Network End\n");
-                                        ;
                                         break;
                                     default:
                                         log("Type = Unknown = " + seg[segptr].segmentationTypeID + "\n");
-                                        ;
                                         break;
                                 }
                                 seg[segptr].segmentNum = b64[bufptr] & 0x00ff;
@@ -686,23 +584,18 @@ public final class Scte35Decoder {
                                 seg[segptr].segmentsExpected = b64[bufptr] & 0x00ff;
                                 bufptr++;
                                 log("Segment num = " + seg[segptr].segmentNum + " Segments Expected = " + seg[segptr].segmentsExpected + "\n");
-                                ;
                                 segptr++;
                             } else {
                                 log("Segmentation Event Cancel Indicator SET\n");
-                                ;
                             }
                             break;
                     }
                 } else {
                     log(String.format("Private Descriptor tag=%d Length=%d identifier = 0x%08x  Value = 0x", tag, len, identifier));
-                    ;
                     for (int j = bufptr; j < (bufptr + (len - 4)); j++) {
                         log(String.format("%02X.", b64[j]));
-                        ;
                     }
                     log("\n");
-                    ;
                     bufptr += len - 4;
                 }
             }
@@ -711,10 +604,8 @@ public final class Scte35Decoder {
         if (bufptr != (spliceInfoSection.descriptorLoopLength + desptr)) {
             int dlen = bufptr - desptr;
             log("ERROR decoded descriptor length " + dlen + " not equal to specified descriptor length " + spliceInfoSection.descriptorLoopLength + "\n");
-            ;
             bufptr = desptr + spliceInfoSection.descriptorLoopLength;
             log("SKIPPING REST OF THE COMMAND!!!!!!\n");
-            ;
         } else {
 
             if (spliceInfoSection.encryptedPacket != 0) {
@@ -732,10 +623,8 @@ public final class Scte35Decoder {
             bufptr++;
             spliceInfoSection.CRC32 = (int) (((l1 << 24) + (l2 << 16) + (l3 << 8) + l4) & 0x00ffffffff);
             log(String.format("CRC32 = 0x%08x\n", spliceInfoSection.CRC32));
-            ;
         }
         log(String.format("calc CRC32 = 0x%08x --- Should = 0x00000000\n", crc32(b64, 0, bufptr)));
-        ;
         return spliceInfoSection;
     }
 
