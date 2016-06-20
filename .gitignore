@@ -12,3 +12,38 @@
 hs_err_pid*
 .idea
 *.DS_Store
+
+# Build Artifacts
+
+.gradle/
+build/
+target/
+bin/
+dependency-reduced-pom.xml
+
+# IntelliJ IDEA Files
+
+*.iml
+*.ipr
+*.iws
+*.idea
+
+# Eclipse Project Files
+
+.classpath
+.project
+.settings/
+
+# Operating System Files
+
+*.DS_Store
+Thumbs.db
+*.sw?
+.#*
+*#
+*~
+*.sublime-*
+
+Gemfile.lock
+.phabricator-comment
+archive.tar.gz
