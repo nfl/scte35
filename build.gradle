@@ -1,5 +1,5 @@
-group 'com.nfl.mobile.scte35'
-version '1.0-SNAPSHOT'
+group 'com.nfl.scte35'
+version '1.0.2-SNAPSHOT'
 
 buildscript {
     repositories {
