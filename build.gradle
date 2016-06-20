@@ -1,4 +1,4 @@
-group 'com.nfl.scte35'
+group 'com.nfl.dm.scte35'
 version '1.0.2-SNAPSHOT'
 
 buildscript {
@@ -16,9 +16,7 @@ buildscript {
 apply plugin: 'com.nfl.dm.shield.gradle'
 apply plugin: 'java'
 
-jacoco {
-    toolVersion = "0.7.5.201505241946"
-}
+
 repositories {
     mavenCentral()
 }
@@ -26,5 +24,3 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
-
-
