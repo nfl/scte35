@@ -1,15 +1,16 @@
-group 'com.nfl.mobile'
+group 'com.nfl.mobile.scte35'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'sonar'
+apply plugin: 'application'
 
 repositories {
     mavenCentral()
 }
-jacoco {
-    toolVersion = "0.7.5.201505241946"
-}
+
 dependencies {
+    compile 'io.aurlift:airline:0.7'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+mainClassName = "com.nfl.mobile.scte35.cli.Main"

@@ -21,10 +21,49 @@ public class Scte35DecoderTest {
     }
 
 
+    /**
+     * Given input:
+     * {@code "/DAlAAAAAAAAAP/wFAUAAAPof+//SVqZrP4Ae5igAAEBAQAAQcfnVA=="}
+     * Expected result:
+     * {@code
+     * <SpliceInfoSection tableID="252" sectionSyntaxIndicator="0" privateIndicator="0" reserved_0="3" sectionLength="37" protocolVersion="0" ptsAdjustment="0" cwIndex="0" tier="4095" spliceCommandLength="20">
+     * <SpliceInsert spliceEventId="1000" spliceEventCancelIndicator="0" reserved_0="127" outOfNetworkIndicator="1" spliceImmediateFlag="0" reserved_1="15" uniqueProgramId="1" availNum="1" availsExpected="1">
+     * <Program><SpliceTime ptsTime="5525641644"/></Program>
+     * <BreakDuration autoReturn="1" reserved="63" duration="8100000"/>
+     * </SpliceInsert>
+     * <descriptorLoopLength>0</descriptorLoopLength>
+     * <AlignmentStuffing>0</AlignmentStuffing>
+     * <Crc_32>1103619924</Crc_32>
+     * </SpliceInfoSection>
+     * }
+     * <p>
+     * NOTE: reserved fields indices are shifted by 1, i.e. reserved_0 => reserved1
+     *
+     * @throws Exception
+     */
     @Test
     public void testExample1() throws Exception {
-        System.out.println(scte35Decoder.base64Decode("/DAlAAAAAAAAAP/wFAUAAAPof+//SVqZrP4Ae5igAAEBAQAAQcfnVA=="));
+        SpliceInfoSection spliceInfoSection = scte35Decoder.base64Decode("/DAlAAAAAAAAAP/wFAUAAAPof+//SVqZrP4Ae5igAAEBAQAAQcfnVA==");
+        assertEquals(252, spliceInfoSection.tableID);
+        assertEquals(3, spliceInfoSection.reserved1);
+        assertEquals(37, spliceInfoSection.sectionLength);
+        assertEquals(4095, spliceInfoSection.tier);
+        assertEquals(20, spliceInfoSection.spliceCommandLength);
+        SpliceInsert spliceInsert = spliceInfoSection.spliceInsert;
+        assertEquals(1000, spliceInsert.spliceEventID);
+        //assertEquals(127,spliceInsert.reserved1); //Not set in decoder
+        assertEquals(1, spliceInsert.outOfNetworkIndicator);
+        //assertEquals(15,spliceInsert.reserved2); //Not set in decoder
+        assertEquals(1, spliceInsert.uniqueProgramID);
+        assertEquals(1, spliceInsert.availNum);
+        assertEquals(1, spliceInsert.availsExpected);
+        BreakDuration breakDuration = spliceInsert.breakDuration;
+        assertEquals(1, breakDuration.autoReturn);
+        //assertEquals(63, breakDuration.reserved1); //Not set in decoder
+        assertEquals(8100000L, breakDuration.duration);
+        assertEquals(1103619924L, spliceInfoSection.CRC32);
 
+        System.out.println(spliceInfoSection);
     }
 
 
@@ -81,10 +120,49 @@ public class Scte35DecoderTest {
      *
      * @throws Exception
      */
+    /**
+     * Given input:
+     * {@code "/DAlAAAAAAAAAP/wFAUAAAABf+/+LRQrAP4BI9MIAAEBAQAAfxV6SQ=="}
+     * Expected result:
+     * {@code
+     * <SpliceInfoSection tableID="252" sectionSyntaxIndicator="0" privateIndicator="0" reserved_0="3" sectionLength="37" protocolVersion="0" ptsAdjustment="0" cwIndex="0" tier="4095" spliceCommandLength="20">
+     * <SpliceInsert spliceEventId="1" spliceEventCancelIndicator="0" reserved_0="127" outOfNetworkIndicator="1" spliceImmediateFlag="0" reserved_1="15" uniqueProgramId="1" availNum="1" availsExpected="1">
+     * <Program><SpliceTime ptsTime="756296448"/></Program>
+     * <BreakDuration autoReturn="1" reserved="63" duration="19125000"/>
+     * </SpliceInsert>
+     * <descriptorLoopLength>0</descriptorLoopLength>
+     * <AlignmentStuffing>0</AlignmentStuffing>
+     * <Crc_32>2132113993</Crc_32>
+     * </SpliceInfoSection>
+     * }
+     * <p>
+     * NOTE: reserved fields indices are shifted by 1, i.e. reserved_0 => reserved1
+     *
+     * @throws Exception
+     */
     @Test
     public void testExample3() throws Exception {
-        System.out.println(scte35Decoder.base64Decode("/DAlAAAAAAAAAP/wFAUAAAABf+/+LRQrAP4BI9MIAAEBAQAAfxV6SQ=="));
+        SpliceInfoSection spliceInfoSection = scte35Decoder.base64Decode("/DAlAAAAAAAAAP/wFAUAAAABf+/+LRQrAP4BI9MIAAEBAQAAfxV6SQ==");
+        assertEquals(252, spliceInfoSection.tableID);
+        assertEquals(3, spliceInfoSection.reserved1);
+        assertEquals(37, spliceInfoSection.sectionLength);
+        assertEquals(4095, spliceInfoSection.tier);
+        assertEquals(20, spliceInfoSection.spliceCommandLength);
+        SpliceInsert spliceInsert = spliceInfoSection.spliceInsert;
+        assertEquals(1, spliceInsert.spliceEventID);
+        //assertEquals(127,spliceInsert.reserved1); //Not set in decoder
+        assertEquals(1, spliceInsert.outOfNetworkIndicator);
+        //assertEquals(15,spliceInsert.reserved2); //Not set in decoder
+        assertEquals(1, spliceInsert.uniqueProgramID);
+        assertEquals(1, spliceInsert.availNum);
+        assertEquals(1, spliceInsert.availsExpected);
+        BreakDuration breakDuration = spliceInsert.breakDuration;
+        assertEquals(1, breakDuration.autoReturn);
+        //assertEquals(63, breakDuration.reserved1); //Not set in decoder
+        assertEquals(19125000L, breakDuration.duration);
+        assertEquals(2132113993L, spliceInfoSection.CRC32);
 
+        System.out.println(spliceInfoSection);
     }
 
 }
