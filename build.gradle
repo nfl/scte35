@@ -16,9 +16,15 @@ buildscript {
 apply plugin: 'com.nfl.dm.shield.gradle'
 apply plugin: 'java'
 
-
+jacoco {
+    toolVersion = "0.7.5.201505241946"
+}
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
 
