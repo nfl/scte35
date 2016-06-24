@@ -6,8 +6,8 @@ import com.nfl.scte35.decoder.model.SegmentationDescriptor;
 import com.nfl.scte35.decoder.model.SpliceInfoSection;
 import com.nfl.scte35.decoder.model.SpliceInsert;
 import com.nfl.scte35.decoder.model.TimeSignal;
-
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 
 /**
  * Implements a SCTE35 Decoding mechanism.
@@ -641,7 +641,12 @@ public final class Scte35Decoder {
 
 
     private SpliceInfoSection hexDecode(String hexin) throws DecodingException {
-        byte[] b64 = DatatypeConverter.parseHexBinary(hexin);
+        byte[] b64;
+        try {
+            b64 = Hex.decodeHex(hexin.toCharArray());
+        } catch (DecoderException e) {
+            throw new DecodingException("Decoding from Hex", e);
+        }
         return decode35(b64);
     }
 
