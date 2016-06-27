@@ -7,4 +7,8 @@ public class DecodingException extends Exception {
     public DecodingException(String message) {
         super(message);
     }
+
+    public DecodingException(String message, Exception e) {
+        super(message, e);
+    }
 }
