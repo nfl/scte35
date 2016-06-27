@@ -3,10 +3,11 @@ package com.nfl.scte35.decoder;
 import com.nfl.scte35.decoder.model.BreakDuration;
 import com.nfl.scte35.decoder.model.SpliceInfoSection;
 import com.nfl.scte35.decoder.model.SpliceInsert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
+
 
 /**
  * Created by andres.aguilar on 6/17/16.
@@ -15,7 +16,7 @@ public class Scte35DecoderTest {
 
     private Scte35Decoder scte35Decoder;
 
-    @Before
+    @BeforeClass
     public void setUp() throws Exception {
         scte35Decoder = new Scte35Decoder(false);
     }
