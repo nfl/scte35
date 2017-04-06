@@ -1,10 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.nfl.scte35.decoder;
 
 /**
+ * This class was originally in package
  * @author sriedl
  */
 
@@ -77,7 +75,7 @@ import java.util.Arrays;
  *         Date: 2004-aug-02
  *         Time: 11:31:11
  */
-
+@Deprecated
 public class Base64 {
     private static final char[] CA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
     private static final int[] IA = new int[256];
