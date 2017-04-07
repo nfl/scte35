@@ -119,9 +119,7 @@ public class Scte35DecoderTest {
     /**
      * From Example on Python decoder: https://gist.github.com/use-sparingly/6517a8b94a52746af028
      *
-     * @throws Exception
-     */
-    /**
+     *
      * Given input:
      * {@code "/DAlAAAAAAAAAP/wFAUAAAABf+/+LRQrAP4BI9MIAAEBAQAAfxV6SQ=="}
      * Expected result:

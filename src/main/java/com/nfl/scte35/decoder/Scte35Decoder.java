@@ -6,7 +6,9 @@ import com.nfl.scte35.decoder.model.SegmentationDescriptor;
 import com.nfl.scte35.decoder.model.SpliceInfoSection;
 import com.nfl.scte35.decoder.model.SpliceInsert;
 import com.nfl.scte35.decoder.model.TimeSignal;
+
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
 /**
@@ -90,7 +92,7 @@ public final class Scte35Decoder {
         for (int i = 0; i < b64.length; i++) {
             stemp += String.format("%02X", b64[i]);
         }
-        log(stemp + "\nBase64=" + Base64.encodeToString(b64, false) + "\n\n");
+        log(stemp + "\nBase64=" + Base64.encodeBase64String(b64) + "\n\n");
 
         log("Decoded length = " + b64.length + "\n");
 
@@ -651,7 +653,7 @@ public final class Scte35Decoder {
     }
 
     public SpliceInfoSection base64Decode(String base64in) throws DecodingException {
-        byte[] b64 = Base64.decodeFast(base64in);
+        byte[] b64 = Base64.decodeBase64(base64in);
         String stemp = "";
         for (int i = 0; i < b64.length; i++) {
             stemp += String.format("%02X", b64[i]);

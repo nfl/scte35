@@ -12,7 +12,10 @@ This library was forked from https://github.com/riedlse/scte35.
 * Provide a simple interface that can be instatiated or injected
 * Remove Netbeans dependency 
 * Remove UI dependency
-* Compatibility with Android (But no actual Android dependency)
+* Compatibility with Android
+  * Removing dependency to `javax.xml.bind.DatatypeConverter` http://stackoverflow.com/a/34424297. Using `commons-codec`
+  * Removing  ` com.turner.decoder.Base64`. Using `commons-codec`
+  * Keep it independent of Android libraries
 * Fully define model
 * Move to gradle
 * Add unit tests
