@@ -35,6 +35,5 @@ SpliceInfoSection spliceInfoSection = scte35Decoder.base64Decode("SCTE35_ENCODED
 ```
 
 ## TODOs
-* Remove (Or clean up) Base64 class
 * Make models immutable
 * Add more examples to increase code coverage
