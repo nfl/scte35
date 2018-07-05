@@ -1,16 +1,8 @@
 buildscript {
     repositories {
-        maven {
-            url "http://nexus.la3.nfl.com/nexus/content/groups/public"
-        }
         mavenCentral()
     }
-    dependencies {
-        classpath 'com.nfl.dm.shield.gradle:shield-plugin:1.0.+'
-    }
-
 }
-apply plugin: 'com.nfl.dm.shield.gradle'
 apply plugin: 'java'
 
 targetCompatibility = '1.7'
@@ -39,7 +31,7 @@ int getVersionCode() {
 }
 
 String getVersionName(int versionCode) {
-    
+
     def jenkinsHome = System.getenv("JENKINS_HOME")
 
     // Local (developer) build, e.g. "0.1.branch-SNAPSHOT"
