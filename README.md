@@ -2,7 +2,7 @@
 
 # SCETE 35 Decoder
 
-[![Build Status](https://github.com/nfl/scte35/workflows/gradle/badge.svg)]
+[![Build Status](https://github.com/nfl/scte35/workflows/Java%20CI%20with%20Gradle/badge.svg)]
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/nfl/scte35decoder/blob/master/LICENSE)
 
 Java library that handles decoding strings that follow the SCTE 35 Standard: https://en.wikipedia.org/wiki/SCTE-35. The result is an Plain Old Java Object of type `SpliceInfoSection`
