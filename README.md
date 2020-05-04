@@ -20,15 +20,27 @@ This library was forked from https://github.com/riedlse/scte35.
 * Move to gradle
 * Add unit tests
 
-## How to use
-
-Import dependency
-```gradle
-compile 'com.nfl.dm.scte35:scte35-decoder:1.0.30'
+## Integration
+This library is made available via maven repository. Alternatively it can be downloaded and included directly into a private maven repository or directly in the libs folder of the target app.
+### Add maven repository
+```groovy
+  repositories {
+      maven {
+        name = "NFL Scte35"
+        url = uri("https://maven.pkg.github.com/nfl/scte35")
+      }
+    }
 ```
-
-Create or inject instance: 
+### Add dependency
+```groovy
+  dependencies {
+...
+  implementation 'com.nfl.dm.scte35:scte35-decoder:1.0.31'
+...
+  }
 ```
+### Create or inject instance:
+```java
 Scte35Decoder scte35Decoder = new Scte35Decoder(false);
 SpliceInfoSection spliceInfoSection = scte35Decoder.base64Decode("SCTE35_ENCODED_STRING");
 //Use values from model: spliceInfoSection
