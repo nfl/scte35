@@ -2,7 +2,8 @@
 
 # SCETE 35 Decoder
 
-[![Build Status](https://travis-ci.org/nfl/scte35decoder.svg?branch=master)](https://travis-ci.org/nfl/scte35decoder) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.nfl.scte35decoder/scte35decoder/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.nfl.scte35decoder/scte35decoder) [ ![Download](https://api.bintray.com/packages/nfl/maven/scte35decoder/images/download.svg) ](https://bintray.com/nfl/maven/scte35decoder/_latestVersion) [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/nfl/scte35decoder/blob/master/LICENSE)
+[![Build Status](https://github.com/nfl/scte35/workflows/gradle/badge.svg)]
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/nfl/scte35decoder/blob/master/LICENSE)
 
 Java library that handles decoding strings that follow the SCTE 35 Standard: https://en.wikipedia.org/wiki/SCTE-35. The result is an Plain Old Java Object of type `SpliceInfoSection`
 
