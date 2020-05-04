@@ -23,7 +23,7 @@ publishing {
     publications {
         gpr(MavenPublication) {
             groupId 'com.nfl.dm.scte35'
-            version  = '1.0.31'
+            version  = '1.0.32'
             from components.java
         }
     }
