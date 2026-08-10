@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: nfl-ubuntu-small
 
     steps:
     - uses: actions/checkout@v2
